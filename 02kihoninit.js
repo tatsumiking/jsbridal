@@ -386,7 +386,7 @@ function fncSetDefKonreiData()
 	txtHirouenMN.value = "30";
 
 	cmbKaijyou = document.getElementById("cmbKaijyou");
-	fnclibSelectData(cmbKeisyou, "");
+	fnclibSelectData(cmbKaijyou, "");
 
 	chkMukotori = document.getElementById("chkMukotori");
 	chkMukotori.checked = false;

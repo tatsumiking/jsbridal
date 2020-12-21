@@ -135,6 +135,7 @@ function fncLoadPCCsvCallBack(xmlhttp)
 		return;
 	}
 	fncSaveCsvData();
+	fnclibAlert("PCから婚礼招待者情報を読み込みました");
 }
 function fncOnChangeCsvLoad()
 {
@@ -186,6 +187,7 @@ function fncLoadCsvCallBack(xmlhttp)
 	if(ary[0] == "0"){
 		return;
 	}
+	fnclibAlert("婚礼情報を読み込みました");
 	fncGetKonreiData();	
 	if(m_strUserKind == "1")
 	{

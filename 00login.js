@@ -9,7 +9,7 @@ var m_strPW;
 function fncInit()
 {
 	m_szHotelName = "ホテルソア";
-	m_szHotelDB = "bridal";
+	m_szHotelDB = "jsbridal";
 	m_szKonreiTable = "bridaluser";
 	localStorage.setItem("HotelName", m_szHotelName);
 	localStorage.setItem("HotelDB", m_szHotelDB);

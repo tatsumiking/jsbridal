@@ -13,6 +13,8 @@ var m_aryGestSit;
 var m_cnvsWidth;
 var m_cnvsHeight;
 
+var m_nSlctGestId;
+
 var m_strWhereSql;
 var m_strOderSql;
 
@@ -20,8 +22,8 @@ var m_nScrnLeft;
 var m_nScrnTop;
 
 var m_aryTableArea;
-var m_nLeftTAIdx;
-var m_nRightTAIdx;
+var m_taLeft;
+var m_taRight;
 var m_cnvsPaper;
 var m_ctxPaper;
 var m_nFontSize;
@@ -31,8 +33,9 @@ function fncInit()
 {
 	m_nScrnLeft = 0;
 	m_nScrnTop = 0;
-	m_nLeftTAIdx = null;
-	m_nRightTAIdx = null;
+	m_taLeft = null;
+	m_taRight = null;
+	m_nSlctGestId = 0;
 	
 	m_szHotelDB = localStorage.getItem("HotelDB");
 	m_szKonreiTable = localStorage.getItem("KonreiTable");
@@ -58,12 +61,21 @@ function fncInit()
 	var rdoKana = document.getElementById("rdoKana");
 	rdoKana.onclick = fncOnClickKana;
 
-	var chkInsert = document.getElementById("chkInsert");
+	var lstGest = document.getElementById("lstGest");
+	lstGest.onchange = fncOnChangeGestList;
 
 	var btnReturn = document.getElementById("btnReturn");
 	btnReturn.onclick = fncOnClickReturn;
 
+	fncTableTextSetFunction();
+
 	fncInitKonreiElement();
+}
+function fncOnChangeGestList()
+{
+	var lstGest = document.getElementById("lstGest");
+	var nIdx = lstGest.selectedIndex;
+	m_nSlctGestId = lstGest.options[nIdx].value;
 }
 function fncOnClickAll()
 {
@@ -249,7 +261,7 @@ function fncInitTableLayout()
 			tidx++;
 		}
 	}
-	fncInitGetSitList();
+	fncInitGetSitArray();
 	fncDrawPaperCanvas();
 }
 function fncInitGetList()
@@ -300,17 +312,17 @@ function checkArraGestSit(sId)
 	}
 	return(1);
 }
-function fncInitGetSitList()
+function fncInitGetSitArray()
 {
 	var dbnm = m_szHotelDB;
 	var tble = "ge"+m_sKonreiNo;
 	var fild = "id,name1,name2,kind,tno,sno";
 	var trmsql = "";
 	var data = "dbnm="+dbnm+"&tble="+tble+"&fild="+fild+"&trmsql="+trmsql;
-	var fnc = fncGestSitListCallback;
+	var fnc = fncGestSitArrayCallback;
 	sendRequest("POST","php/getlist.php",data,false,fnc);
 }
-function fncGestSitListCallback(xmlhttp)
+function fncGestSitArrayCallback(xmlhttp)
 {
 	var max, idx;
 	var lstidx, sitidx;
@@ -323,9 +335,6 @@ function fncGestSitListCallback(xmlhttp)
 		fnclibAlert("招待者リストを取得することが出来ませんでした");
 		return;
 	}
-
-	var lstGest = document.getElementById("lstGest");
-	lstGest.options.length = 0;
 	m_aryGestSit.length = 0;
 
 	var aryRec = data.split(";");
@@ -340,9 +349,7 @@ function fncGestSitListCallback(xmlhttp)
 			clsGS.sno = fnclibStringToInt(ary[5]);
 			clsGS.name = ary[1] + ary[2] + " " + ary[3];
 			m_aryGestSit.push(clsGS);
-			if(clsGS.tno == 0 && clsGS.sno == 0){
-				lstGest.options[lstidx] = new Option(clsGS.name, ary[0]);
-			}else{
+			if(clsGS.tno != 0 && clsGS.sno != 0){
 				clsTbl = fncGetTable(clsGS.tno);
 				if(clsTbl != null){
 					if(clsGS.sno <= 7){
@@ -354,6 +361,23 @@ function fncGestSitListCallback(xmlhttp)
 					}
 				}
 			}
+		}
+	}
+	fncInitGestList();
+	fncDispSitNameTable();
+}
+function fncInitGestList()
+{
+	var max, idx;
+
+	var lstGest = document.getElementById("lstGest");
+	lstGest.options.length = 0;
+	max = m_aryGestSit.length;
+	var lstidx = 0;
+	for(idx = 0; idx < max; idx++){
+		clsGS = m_aryGestSit[idx];
+		if(clsGS.tno == 0 && clsGS.sno == 0){
+			lstGest.options[lstidx] = new Option(clsGS.name, clsGS.id);
 			lstidx++;
 		}
 	}
@@ -378,6 +402,25 @@ function fncGetTable(tno)
 		}
 	}
 	return(null);
+}
+function fncGetTNo(clsTbl)
+{
+	var idx, max;
+	var cnt, cntmax;
+	var tno;
+
+	tno = 1;
+	max = m_clsLayout.tlines.length; // 6固定
+	for(idx = 0; idx < max; idx++){
+		cntmax = m_clsLayout.tlines[idx].tables.length;
+		for(cnt = 0; cnt < cntmax; cnt++){
+			if(clsTbl == m_clsLayout.tlines[idx].tables[cnt]){
+				return(tno);
+			}
+			tno++;
+		}
+	}
+	return(0);
 }
 function fncDrawPaperCanvas()
 {

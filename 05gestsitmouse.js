@@ -62,8 +62,8 @@ function fncTouchMove(event)
 
 function fncTouchUp(event)
 {
-	x = m_nMouseCrtX;
-	y = m_nMouseCrtY;
+	var x = m_nMouseCrtX;
+	var y = m_nMouseCrtY;
 	if(fncCheckCanvasArea(x, y) == true){
 		//event.preventDefault();
 		fncMouseUpXY(x, y);
@@ -72,8 +72,7 @@ function fncTouchUp(event)
 
 function fncGetPointAdd()
 {
-	var pt;
-	pt = new Point();
+	var pt = new Point();
 	var area = document.body.parentElement
 	if(area == null || area.scrollLeft == null){
 		pt.x = -m_nScrnLeft-m_nMouseAdjustX;
@@ -89,15 +88,14 @@ function fncGetPointAdd()
 }
 function fncCheckCanvasArea(x, y)
 {
-	var sx, sy, ex, ey;
 	var area = document.getElementById("cnvsPaper");
 	if(area == null){
 		return(false);
 	}
-	sx = 0;
-	sy = 0;
-	ex = area.offsetWidth;
-	ey = area.offsetHeight;
+	var sx = 0;
+	var sy = 0;
+	var ex = area.offsetWidth;
+	var ey = area.offsetHeight;
 	if(sx < x && x < ex && sy < y && y < ey){
 		return(true);
 	}
@@ -139,16 +137,12 @@ function fncMouseMove(event)
 
 function fncMouseDownXY(x, y)
 {
-	var event;
-	var dx, dy;
-	var tx, ty;
-
-	event = SETEVENT;
+	var event = SETEVENT;
 	m_nMouseDown = 1;
-	dx = fncScrnTrnsRMX(x);
-	dy = fncScrnTrnsRMY(y);
-	tx = fncScrnTrnsMRX(dx);
-	ty = fncScrnTrnsMRY(dy);
+	var dx = fncScrnTrnsRMX(x);
+	var dy = fncScrnTrnsRMY(y);
+	//var tx = fncScrnTrnsMRX(dx);
+	//var ty = fncScrnTrnsMRY(dy);
 	dx = parseInt(dx);
 	dy = parseInt(dy);
 	fncCmdExec(event, dx, dy);
@@ -156,13 +150,10 @@ function fncMouseDownXY(x, y)
 
 function fncMouseUpXY(x, y)
 {
-	var event;
-	var dx, dy;
-
-	event = UPSETEVENT;
+	var event = UPSETEVENT;
 	m_nMouseDown = 0;
-	dx = fncScrnTrnsRMX(x);
-	dy = fncScrnTrnsRMY(y);
+	var dx = fncScrnTrnsRMX(x);
+	var dy = fncScrnTrnsRMY(y);
 	dx = parseInt(dx);
 	dy = parseInt(dy);
 	fncCmdExec(event, dx, dy);
@@ -171,17 +162,37 @@ function fncMouseUpXY(x, y)
 function fncMouseMoveXY(x, y)
 {
 	var event;
-	var dx, dy;
 
 	if(m_nMouseDown == 1){
 		event = MOVEEVENT;
 	}else{
 		event = UPMOVEEVENT;
 	}
-	dx = fncScrnTrnsRMX(x);
-	dy = fncScrnTrnsRMY(y);
+	var dx = fncScrnTrnsRMX(x);
+	var dy = fncScrnTrnsRMY(y);
 	dx = parseInt(dx);
 	dy = parseInt(dy);
 	fncCmdExec(event, dx, dy);
 }
+function fncScrnTrnsRMX(rltvx)
+{
+	var absx = (rltvx - m_dScrnRltvSX);
+	return(absx);
+}
+function fncScrnTrnsRMY(rltvy)
+{
+	var absy = (rltvy - m_dScrnRltvSY);
+	return(absy);
+}
+function fncScrnTrnsMRX(absx)
+{
+	var rltvx = absx + m_dScrnRltvSX;
+	return(rltvx);
+}
+function fncScrnTrnsMRY(absy)
+{
+	var rltvy = absy + m_dScrnRltvSY;
+	return(rltvy);
+}
+
 

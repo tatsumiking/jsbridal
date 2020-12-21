@@ -1,6 +1,7 @@
 
 var m_szHotelName;
 var m_szHotelDB;
+var m_szKonreiTable;
 
 function fncInit()
 {
@@ -9,6 +10,7 @@ function fncInit()
 
 	m_szHotelName = localStorage.getItem("HotelName");
 	m_szHotelDB = localStorage.getItem("HotelDB");
+	m_szKonreiTable = localStorage.getItem("KonreiTable");
 
 	var btnHotelNew = document.getElementById("btnHotelNew");
 	btnHotelNew.onclick = fncOnClickInitHotel;
@@ -62,7 +64,7 @@ function fncInitHotelCallback(xmlhttp)
 		}
 	}
 	if(setidx == 0){
-		cmbHotelName.options[0] = new Option("ホテルソア", "bridal");
+		cmbHotelName.options[0] = new Option("ホテルソア", "jsbridal");
 	}
 	max = cmbHotelName.options.length;
 	for(idx = 0; idx < max; idx++){
@@ -81,7 +83,7 @@ function fncInitTableCombobox()
 	cmbTableName.options[1] = new Option("会場テーブル", "kaijyou");
 	cmbTableName.options[2] = new Option("区分テーブル", "kubun");
 	cmbTableName.options[3] = new Option("連名区分テーブル", "renmei");
-	cmbTableName.options[4] = new Option("婚礼テーブル", "bridaluser");
+	cmbTableName.options[4] = new Option("婚礼テーブル", m_szKonreiTable);
 }
 function fncListTable(szTable)
 {
@@ -99,7 +101,7 @@ function fncListTable(szTable)
 	{
 		fild = "id,name";
 	}
-	else if(szTable == "bridaluser")
+	else if(szTable == m_szKonreiTable)
 	{
 		fild = "id,username,kyosiki,kaijyou,sinroname1,sinpuname1";
 	}

@@ -64,7 +64,7 @@ function fncCreateKaijyouTblCallback(xmlhttp)
 		return;
 	}
 	var data = "dbnm="+m_szHotelDB;
-	data = data + "&tble=bridaluser";
+	data = data + "&tble="+m_szKonreiTable;
 	fild = "flag,userno";
 	type = "0,0";
 	fild = fild + ",username,password,dbname,tablelayout";
