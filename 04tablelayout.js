@@ -24,6 +24,12 @@ function fncInit()
 	var sId = localStorage.getItem("KonreiId");
 	m_nKonreiId = fnclibStringToInt(sId);
 	m_sKonreiNo = localStorage.getItem("KonreiNo");
+	if(m_sKonreiNo == "0"){
+		fnclibAlert("婚礼が指定されていません");
+		var url = "02kihon.html";
+		window.location.href = url;
+		return;
+	}
 
 	m_clsLayout = new clsTableLayout();
 	var btnAdd1 = document.getElementById("btnAdd1");

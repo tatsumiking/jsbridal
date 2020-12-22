@@ -43,11 +43,20 @@ function fncInit()
 	var sId = localStorage.getItem("KonreiId");
 	m_nKonreiId = fnclibStringToInt(sId);
 	m_sKonreiNo = localStorage.getItem("KonreiNo");
+	if(m_sKonreiNo == "0"){
+		fnclibAlert("婚礼が指定されていません");
+		var url = "02kihon.html";
+		window.location.href = url;
+		return;
+	}
 
 	m_strWhereSql = "";
 	m_strOderSql = "";
 	m_clsLayout = new clsTableLayout();
 	m_aryGestSit = new Array();
+
+	var btnSave = document.getElementById("btnSave");
+	btnSave.style.visibility = 'hidden';
 
 	var rdoAll = document.getElementById("rdoAll");
 	rdoAll.onclick = fncOnClickAll;

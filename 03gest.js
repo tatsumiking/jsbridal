@@ -22,6 +22,7 @@ function fncInit()
 		window.location.href = url;
 		return;
 	}
+
 	var btnNew = document.getElementById("btnNew");
 	btnNew.onclick = fncOnClickNew;
 	var btnUpdate = document.getElementById("btnUpdate");
