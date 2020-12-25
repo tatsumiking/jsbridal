@@ -1,4 +1,4 @@
 //
-ホテルソア,bridal,
+ホテルソア,jsbridal,
 ホテルメトリポリタン,metoro,
 ホテルオータニ,ootani,
