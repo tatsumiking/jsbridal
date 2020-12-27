@@ -6,6 +6,7 @@ $base64data = str_replace(' ' , '+' , $base64data);
 $ary = split(',',$base64data);
 $textdata = base64_decode($ary[1]);
 $ret = file_put_contents($pccsvfilename, $textdata);
+// chmod($pccsvfilename, 0777);
 if($ret == 0){
 	$str = "0,".$pccsvfilename.",";
 }else{

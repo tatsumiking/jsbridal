@@ -5,7 +5,6 @@ var m_szKonreiTable;
 function fncInit()
 {
 	fncInitDataBaseNameCombobox();
-	fncInitTableNameCombobox("bridal");
 
 	m_szBridalDB = "bridal";
 	m_szKonreiTable = "bridaluser";
@@ -83,6 +82,10 @@ function fncInitDataBaseNameCallback(xmlhttp)
 	for(idx = 0;idx < max; idx++){
 		cmbDatabaseName.options[idx] = new Option(ary[idx]);
 	}
+	idx = cmbDatabaseName.selectedIndex;
+	var szDatabaseName = cmbDatabaseName.options[idx].text;
+	fncInitTableNameCombobox(szDatabaseName)
+
 }
 function fncInitTableNameCombobox(szDatabaseName)
 {
@@ -110,7 +113,7 @@ function fncInitTableNameCallback(xmlhttp)
 function fncListTableData(szDatabaseName, szTableName)
 {
 	data = "dbnm="+szDatabaseName;
-	data = data+"&tble="+szTableName;
+	data = data+"&sql=SELECT * FROM "+szTableName+";";
 	var fnc = fncListTableCallback;
 	sendRequest("POST","getlist.php",data,false,fnc);
 }

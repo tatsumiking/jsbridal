@@ -1,10 +1,12 @@
-
 <?php
 
 $dbname = $_POST['dbnm'];
 $sqlstr = $_POST['sql'];
-//$dbname = "braidal";
+//$dbname = "bridal";
 //$sqlstr = "SELECT * FROM bridaluser;";
+//$dbname = "";
+//$sqlstr = "SHOW DATABASES;";
+//$sqlstr = "SHOW TABLES FROM bridal;";
 
 $envfilename = "../env/dbenv.txt";
 $fp = fopen($envfilename, 'r');
@@ -31,7 +33,13 @@ if($mysql = mysql_pconnect($server,$username,$password)){
 		if($row == NULL){
 			break;
 		}
-		$retstr = $retstr.$row;
+		$max = count($row) / 2;
+		for($idx = 0; $idx < $max; $idx++){
+			if($idx != 0){
+				$retstr = $retstr.",";
+			}
+			$retstr = $retstr.$row[$idx];
+		}
 		$retstr = $retstr.";";
 	}
 }else{

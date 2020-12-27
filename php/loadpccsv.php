@@ -1,4 +1,3 @@
-
 <?php
 //$dbname = "bridal";
 //$konreitable = "bridaluser";

@@ -36,7 +36,7 @@ for($idx = 0; $idx < $max; $idx++){
 	}
 }
 $sql = $sql.");";
-echo "[".$sql."]\r\n";
+//echo "[".$sql."]\r\n";
 if($mysql = mysql_connect($server,$username,$password)){
 	$ret = mysql_select_db($dbname, $mysql);
 	if($ret == FALSE){

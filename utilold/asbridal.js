@@ -2,7 +2,7 @@
 
 function fncTestDataCreate()
 {
-	var data = "dbnm="+m_szHotelDB;
+	var data = "dbnm="+m_szBridalDB;
 	var fnc = fncTestDataCreateCallback;
 	sendRequest("POST","initdb.php",data,false,fnc);
 }
@@ -11,10 +11,10 @@ function fncTestDataCreateCallback(xmlhttp)
 	var retstr = xmlhttp.responseText;
 	var ary = retstr.split(",");
 	if(ary[0] == "0"){
-		alert("データベース"+m_szHotelDB+"の初期化に失敗しました");
+		alert("データベース"+m_szBridalDB+"の初期化に失敗しました");
 		return;
 	}
-	var data = "dbnm="+m_szHotelDB;
+	var data = "dbnm="+m_szBridalDB;
 	data = data + "&tble="+m_szKonreiTable;
 	fild = "flag,userno";
 	type = "0,0";
@@ -51,7 +51,7 @@ function fncCreateKihonTblCallback(xmlhttp)
 	sqlstr = "INSERT INTO "+m_szKonreiTable;
 	sqlstr = sqlstr+" (flag,username,password) VALUES";
 	sqlstr = sqlstr+" (1,'0000','0000');";
-	var data = "dbnm="+m_szHotelDB;
+	var data = "dbnm="+m_szBridalDB;
 	data = data + "&sql="+sqlstr;
 	var fnc = fncSetKanriDataCallback;
 	sendRequest("POST","execsql.php",data,false,fnc);
@@ -64,6 +64,7 @@ function fncSetKanriDataCallback(xmlhttp)
 		alert("管理者データの失敗しました");
 		return;
 	}
+	alert("管理者データを作成しました");
 }
 function fncUploadOnCsvLoad(e)
 {
@@ -83,11 +84,11 @@ function fncUploadCsvCallBack(xmlhttp)
 		fnclibAlert("ERROR ファイルのUPLOADに失敗しました");
 		return;
 	}
-	var dbnm = m_szHotelDB;
+	var dbnm = m_szBridalDB;
 	var krtbl = m_szKonreiTable;
 	var krno = m_sKonreiNo;
 	var krpw = "";
-	var data = "dbnm="+dbnm+"&krtbl="+krtbl+"&krno="+krno+"&krpw="+krpw;
+	var data = "dbnm="+dbnm+"&tble="+krtbl+"&krno="+krno+"&krpw="+krpw;
 	var fnc = fncCheckKonreiCallBack;
 	sendRequest("POST","initkonrei.php",data,false,fnc);
 }
@@ -95,13 +96,12 @@ function fncCheckKonreiCallBack(xmlhttp)
 {
 	var data = xmlhttp.responseText;
 	var ary = data.split(',');
-	var txtKonreiId = document.getElementById("txtKonreiId");
 	if(ary[0] == "0"){
 		fnclibAlert("ERROR 婚礼関係のテーブル作成に失敗しました");
 		return;
 	}
 	m_nKonreiId = fnclibStringToInt(ary[1]);
-	var dbnm = m_szHotelDB;
+	var dbnm = m_szBridalDB;
 	var krtbl = m_szKonreiTable;
 	var recid = m_nKonreiId;
 	var data = "dbnm="+dbnm+"&krtbl="+krtbl+"&recid="+recid+"&krno="+m_sKonreiNo;

@@ -2,8 +2,8 @@
 
 //$dbname = "bridal";
 //$konreitable = "bridaluser";
-//$recid = 7;
-//$konreino = "012950";
+//$recid = 2;
+//$konreino = "000001";
 
 $dbname = $_POST['dbnm'];
 $konreitable = $_POST['krtbl'];
@@ -55,28 +55,7 @@ if($mysql = mysql_connect($server,$username,$password)){
 		echo $retstr;
 		return;
 	}
-	$sql = "DROP TABLE ".$gesttable.";";
-	$ret = mysql_query($sql, $mysql);
 
-	$sql = "CREATE TABLE ".$gesttable."";
-	$sql = $sql." (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY";
-	$sql = $sql.",flag INT NOT NULL,tno INT NOT NULL,sno INT NOT NULL";
-	$sql = $sql.",name1 VARCHAR(24),name2 VARCHAR(24),yomi VARCHAR(48)";
-	$sql = $sql.",sama VARCHAR(15),kind VARCHAR(30),skind VARCHAR(30)";
-	$sql = $sql.",adrsno VARCHAR(24),adrs1 VARCHAR(90),adrs2 VARCHAR(90)";
-	$sql = $sql.",adrs3 VARCHAR(90),telno VARCHAR(24),kt1 VARCHAR(60)";
-	$sql = $sql.",kt2 VARCHAR(60),kt3 VARCHAR(60),kt4 VARCHAR(60)";
-	$sql = $sql.",gno INT NOT NULL,sub1 VARCHAR(96),sub2 VARCHAR(96)";
-	$sql = $sql.",gift VARCHAR(30),dish VARCHAR(30));";
-// echo $sql;
-	$ret = mysql_query($sql, $mysql);
-	if($ret == FALSE){
-		mysql_close($mysql);
-		fclose($fp);
-		$retstr = "0,5,";
-		echo $retstr;
-		return;
-	}
 
 	$gestcount=0;
 	while(1){
@@ -129,7 +108,7 @@ if($mysql = mysql_connect($server,$username,$password)){
 	if($ret == FALSE){
 		mysql_close($mysql);
 		fclose($fp);
-		$retstr = "0,6,";
+		$retstr = "0,4,";
 		echo $retstr;
 		return;
 	}
@@ -151,29 +130,30 @@ if($mysql = mysql_connect($server,$username,$password)){
 		$datasql = $datasql."(".$a[0].",".$a[1].")";
 		$tablecount++;
 	}
-	$tblpostable = "tb".$konreino;
-	$sql="INSERT INTO ".$tblpostable." (x,y)";
+	$datasql = $datasql.",(0,0),(0,0),(0,0),(0,0),(0,0)";
+	$layouttable = "tb".$konreino;
+	$sql="INSERT INTO ".$layouttable." (dx,dy)";
 	$sql=$sql." VALUES ".$datasql.";";
 	$ret = mysql_query($sql, $mysql);
 	if($ret == FALSE){
 		mysql_close($mysql);
 		fclose($fp);
-		$retstr = "0,7,";
+		$retstr = "0,5,";
 		echo $retstr;
 		return;
 	}
 	$str = fgets($fp);
 	$str = mb_convert_encoding($str, 'UTF-8', 'sjis-win');
 	$a = split(',',$str);
-	$tblpostable = "st".$konreino;
-	$sql="INSERT INTO ".$tblpostable." (left,right)";
+	$strtable = "st".$konreino;
+	$sql="INSERT INTO ".$strtable." (leftstr,rightstr)";
 	$sql=$sql." VALUES (".$a[0].",".$a[1].");";
 
 	$ret = mysql_query($sql, $mysql);
 	if($ret == FALSE){
 		mysql_close($mysql);
 		fclose($fp);
-		$retstr = "0,8,";
+		$retstr = "0,6,";
 		echo $retstr;
 		return;
 	}

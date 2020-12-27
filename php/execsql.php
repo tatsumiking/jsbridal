@@ -1,4 +1,3 @@
-
 <?php
 
 $dbname = $_POST['dbnm'];

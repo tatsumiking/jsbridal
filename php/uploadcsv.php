@@ -10,6 +10,7 @@ if($ret == 0){
 	$str = "0,".$pccsvfilename.",";
 }else{
 	$str = "1,".$pccsvfilename.",";
+	
 }
 echo $str;
 
