@@ -58,7 +58,7 @@ function fncCheckKonrei(strNO, strPW)
 {
 	var dbnm = m_szHotelDB;
 	var krtbl = m_szKonreiTable;
-	var data = "dbnm="+dbnm+"&krtbl="+krtbl+"&uno="+strNO+"&upw="+strPW;
+	var data = "dbnm="+dbnm+"&krtbl="+krtbl+"&krno="+strNO+"&krpw="+strPW;
 	var fnc = fncCheckKonreiCallBack;
 	sendRequest("POST","php/initkonrei.php",data,false,fnc);
 }

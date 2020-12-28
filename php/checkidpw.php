@@ -1,5 +1,6 @@
 <?php
 $argvs = $_POST['com'];
+//$argvs = "012950,429866";
 $ary = explode(",", $argvs);
 $strID = $ary[0];
 $strPW = $ary[1];
