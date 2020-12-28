@@ -83,7 +83,7 @@ function fncInitTableCombobox()
 	cmbTableName.options[1] = new Option("会場テーブル", "kaijyou");
 	cmbTableName.options[2] = new Option("区分テーブル", "kubun");
 	cmbTableName.options[3] = new Option("連名区分テーブル", "renmei");
-	cmbTableName.options[4] = new Option("婚礼テーブル", m_szKonreiTable);
+	cmbTableName.options[4] = new Option("婚礼テーブル", "bridaluser");
 }
 function fncListTable(szTable)
 {
@@ -101,7 +101,7 @@ function fncListTable(szTable)
 	{
 		fild = "id,name";
 	}
-	else if(szTable == m_szKonreiTable)
+	else if(szTable == "bridaluser")
 	{
 		fild = "id,username,kyosiki,kaijyou,sinroname1,sinpuname1";
 	}

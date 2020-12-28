@@ -142,13 +142,15 @@ if($mysql = mysql_connect($server,$username,$password)){
 		echo $retstr;
 		return;
 	}
+
 	$str = fgets($fp);
 	$str = mb_convert_encoding($str, 'UTF-8', 'sjis-win');
+	echo $str."<BR>";
 	$a = split(',',$str);
-	$strtable = "st".$konreino;
+	$strtable = "ss".$konreino;
 	$sql="INSERT INTO ".$strtable." (leftstr,rightstr)";
-	$sql=$sql." VALUES (".$a[0].",".$a[1].");";
-
+	$sql=$sql." VALUES ('".$a[0]."','".$a[1]."');";
+	echo $sql."<BR>";
 	$ret = mysql_query($sql, $mysql);
 	if($ret == FALSE){
 		mysql_close($mysql);

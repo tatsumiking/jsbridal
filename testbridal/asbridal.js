@@ -65,6 +65,7 @@ function fncSetKanriDataCallback(xmlhttp)
 		return;
 	}
 	alert("管理者データを作成しました");
+	fncInitDataBaseNameCombobox();
 }
 function fncUploadOnCsvLoad(e)
 {
@@ -116,4 +117,5 @@ function fncLoadCsvCallBack(xmlhttp)
 		return;
 	}
 	fnclibAlert("婚礼情報を読み込みました");
+	fncInitDataBaseNameCombobox();
 }
