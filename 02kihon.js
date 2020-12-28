@@ -30,10 +30,10 @@ function fncInit()
 
 	fncInitSinroZokugaraComboBox();
 	fncInitSinpuZokugaraComboBox();
+	var btnKonreiCopy = document.getElementById("btnKonreiCopy");
+	btnKonreiCopy.onclick = fncOnClickKonreiCopy;
 	var btnPCCsvLoad = document.getElementById("btnPCCsvLoad");
 	btnPCCsvLoad.onchange = fncOnChangePCCsvLoad;
-	var btnCsvLoad = document.getElementById("btnCsvLoad");
-	btnCsvLoad.onchange = fncOnChangeCsvLoad;
 	var btnNew = document.getElementById("btnNew");
 	btnNew.onclick = fncOnClickNew;
 	var btnUpdate = document.getElementById("btnUpdate");
@@ -87,6 +87,14 @@ function fncOnChangeKonreiList()
 	m_nKonreiId = lstKonrei.options[idx].value;
 	fncGetKonreiData();
 }
+function fncOnClickKonreiCopy()
+{
+	txtKonreiId = document.getElementById("txtKonreiId");
+	m_nKonreiId = fnclibStringToInt(txtKonreiId.textContent);
+	txtKanriNo = document.getElementById("txtKanriNo");
+	m_sKonreiNo = txtKanriNo.value;
+	fncKonreiCopy(); // 02kihoncopy.jsで定義
+}
 function fncOnChangePCCsvLoad()
 {
 	if(this.files.length == 0){
@@ -137,63 +145,6 @@ function fncLoadPCCsvCallBack(xmlhttp)
 	}
 	fncSaveCsvData();
 	fnclibAlert("PCから婚礼招待者情報を読み込みました");
-}
-function fncOnChangeCsvLoad()
-{
-	if(this.files.length == 0){
-		fnclibAlert("アップロードファイルが選択されていません");
-		return;
-	}
-	txtKonreiId = document.getElementById("txtKonreiId");
-	m_nKonreiId = fnclibStringToInt(txtKonreiId.textContent);
-	txtKanriNo = document.getElementById("txtKanriNo");
-	m_sKonreiNo = txtKanriNo.value;
-	if(m_nKonreiId == 0){
-		fnclibAlert("婚礼が選択されていません");
-		return;
-	}
-
-	var fileObj = this.files[0];
-	var fileReader = new FileReader();
-	fileReader.onload = fncUploadOnCsvLoad;
-	fileReader.readAsDataURL(fileObj);
-}
-function fncUploadOnCsvLoad(e)
-{
-	var base64img;
-	
-	base64img = e.target.result;
-
-	var data = "file="+"../temp/upload/ge"+m_sKonreiNo+".csv";
-	data = data + "&data="+base64img;
-	sendRequest("POST","php/uploadcsv.php",data,false,fncUploadCsvCallBack);
-}
-function fncUploadCsvCallBack(xmlhttp)
-{
-	var data = xmlhttp.responseText;
-	var ary = data.split(',');
-	if(ary[0] == "0"){
-		return;
-	}
-	var dbnm = m_szHotelDB;
-	var krtbl = m_szKonreiTable;
-	var recid = m_nKonreiId;
-	var data = "dbnm="+dbnm+"&krtbl="+krtbl+"&recid="+recid+"&krno="+m_sKonreiNo;
-	sendRequest("POST","php/loadcsv.php",data,false,fncLoadCsvCallBack);	
-}
-function fncLoadCsvCallBack(xmlhttp)
-{
-	var data = xmlhttp.responseText;
-	var ary = data.split(',');
-	if(ary[0] == "0"){
-		return;
-	}
-	fnclibAlert("婚礼情報を読み込みました");
-	fncGetKonreiData();	
-	if(m_strUserKind == "1")
-	{
-		fncInitKonreiListBox();	
-	}
 }
 function fncOnClickNew()
 {

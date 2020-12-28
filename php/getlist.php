@@ -20,8 +20,6 @@ $str = fgets($fp); $ary = explode(",", $str); $password = $ary[0];
 fclose($fp);
 
 $sql = "SELECT * FROM ".$tblname." ".$termsql.";";
-
-echo $sql;
 if($mysql = mysql_pconnect($server,$username,$password)){
 	mysql_select_db($dbname, $mysql);
 	$rows = mysql_query($sql, $mysql);

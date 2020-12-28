@@ -21,7 +21,7 @@ if($mysql = mysql_pconnect($server,$username,$password)){
 	$rows = mysql_query($sql, $mysql);
 	mysql_close($mysql);
 	if($rows == NULL){
-		$str1 = "comp=0,2,"."<".$dbname.">";
+		$str1 = "0,2,"."<".$dbname.">";
 		echo $str1;
 		return;
 	}
@@ -43,7 +43,7 @@ if($mysql = mysql_pconnect($server,$username,$password)){
 		$str1 = $str1.";";
 	}
 }else{
-	$str1 = "comp=0,1,,";
+	$str1 = "0,1,,";
 	echo $str1."<".$dbname.">";
 	return;
 }
