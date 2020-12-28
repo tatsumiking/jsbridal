@@ -8,6 +8,7 @@ var m_strUserKind;
 
 var m_nKonreiId; // 画面表示用一事保管
 var m_sKonreiNo; // 画面表示用一事保管
+var m_sKonreiPW;
 
 var m_strOderSql;
 var m_nDispNengo; // 0 西暦表示 1 年号表示
@@ -93,7 +94,7 @@ function fncOnChangePCCsvLoad()
 		return;
 	}
 	txtKonreiId = document.getElementById("txtKonreiId");
-	m_nKonreiId = fnclibStringToInt(txtKonreiId.value);
+	m_nKonreiId = fnclibStringToInt(txtKonreiId.textContent);
 	txtKanriNo = document.getElementById("txtKanriNo");
 	m_sKonreiNo = txtKanriNo.value;
 	if(m_nKonreiId == 0){
@@ -144,7 +145,7 @@ function fncOnChangeCsvLoad()
 		return;
 	}
 	txtKonreiId = document.getElementById("txtKonreiId");
-	m_nKonreiId = fnclibStringToInt(txtKonreiId.value);
+	m_nKonreiId = fnclibStringToInt(txtKonreiId.textContent);
 	txtKanriNo = document.getElementById("txtKanriNo");
 	m_sKonreiNo = txtKanriNo.value;
 	if(m_nKonreiId == 0){
@@ -197,15 +198,12 @@ function fncLoadCsvCallBack(xmlhttp)
 function fncOnClickNew()
 {
 	var txtKonreiId = document.getElementById("txtKonreiId");
-	m_nKonreiId = fnclibStringToInt(txtKonreiId.value);
+	m_nKonreiId = fnclibStringToInt(txtKonreiId.textContent);
 	var txtKanriNo = document.getElementById("txtKanriNo");
 	m_sKonreiNo = txtKanriNo.value;
+	var txtKanriPW = document.getElementById("txtKanriPW");
+	m_sKonreiPW = txtKanriPW.value;
 
-	if(m_nKonreiId != 0)
-	{
-		fnclibAlert("婚礼IDが設定されているため新規作成は出来ません");
-		return;
-	}
 	if(m_sKonreiNo == "")
 	{
 		fnclibAlert("婚礼管理番号が設定されていないため新規作成は出来ません");
@@ -216,14 +214,57 @@ function fncOnClickNew()
 		fnclibAlert("婚礼管理番号は0を含む６桁で設定されていないため新規作成は出来ません");
 		return;
 	}
-	fncCreateKonrei();
+	if(m_sKonreiPW == "")
+	{
+		fnclibAlert("婚礼管理ＰＷが設定されていないため新規作成は出来ません");
+		return;
+	}
+	if(m_sKonreiPW.length != 6)
+	{
+		fnclibAlert("婚礼管理ＰＷは0を含む６桁で設定されていないため新規作成は出来ません");
+		return;
+	}
+	fncCheckNOPW();
 }
-function fncCreateKonrei()
+function fncCheckNOPW()
 {
+	var data = "com="+m_sKonreiNo+","+m_sKonreiPW+",";
+	var fnc = fncCheckNOPWCallback;
+	sendRequest("POST","php/checkidpw.php",data,false,fnc);
+}
+function fncCheckNOPWCallback(xmlhttp)
+{
+	var data = xmlhttp.responseText;
+	var ary = data.split(',');
+	if(ary[0] == "0"){
+		fnclibAlert("パスワードが違います");
+		return;
+	}
+	var dbnm = m_szHotelDB;
+	var tble = m_szKonreiTable;
+	var fild = "id,username";
+	var where = "WHERE (username="+m_sKonreiNo+") LIMIT 1";
+	var data = "dbnm="+dbnm+"&tble="+tble+"&fild="+fild+"&where="+where;
+	var fnc = fncExistsKonreiNoCallBack;
+	sendRequest("POST","php/getdata.php",data,false,fnc);
+}
+function fncExistsKonreiNoCallBack(xmlhttp)
+{
+	var data = xmlhttp.responseText;
+	var ary = data.split(',');
+	if(ary[0] != "0"){
+		fnclibAlert("ご使用の婚礼管理番号はすでに使用されています");
+		m_nKonreiId = ary[0];
+		var txtKonreiId = document.getElementById("txtKonreiId");
+		txtKonreiId.textContent = txtKonreiId;
+		fncGetKonreiData();
+		return;
+	}
+
 	var dbnm = m_szHotelDB;
 	var krtbl = m_szKonreiTable;
 	var krno = m_sKonreiNo;
-	var krpw = "";
+	var krpw = m_sKonreiPW;
 	var data = "dbnm="+dbnm+"&krtbl="+krtbl+"&krno="+krno+"&krpw="+krpw;
 	var fnc = fncCheckKonreiCallBack;
 	sendRequest("POST","php/initkonrei.php",data,false,fnc);
@@ -236,8 +277,8 @@ function fncCheckKonreiCallBack(xmlhttp)
 	if(ary[0] == "0"){
 		return;
 	}
-	txtKonreiId.value = ary[1];
-	m_nKonreiId = fnclibStringToInt(txtKonreiId.value);
+	txtKonreiId.textContent = ary[1];
+	m_nKonreiId = fnclibStringToInt(txtKonreiId.textContent);
 	fncUpdateKonreiData();
 	if(m_strUserKind == "1")
 	{
@@ -247,7 +288,7 @@ function fncCheckKonreiCallBack(xmlhttp)
 function fncOnClickUpdate()
 {
 	var txtKonreiId = document.getElementById("txtKonreiId");
-	m_nKonreiId = fnclibStringToInt(txtKonreiId.value);
+	m_nKonreiId = fnclibStringToInt(txtKonreiId.textContent);
 	var txtKanriNo = document.getElementById("txtKanriNo");
 	m_sKonreiNo = txtKanriNo.value;
 	
@@ -356,7 +397,7 @@ function fncUpdateKonreiCallback(xmlhttp)
 function fncOnClickDelete()
 {
 	var txtKonreiId = document.getElementById("txtKonreiId");
-	m_nKonreiId = fnclibStringToInt(txtKonreiId.value);
+	m_nKonreiId = fnclibStringToInt(txtKonreiId.textContent);
 	var txtKanriNo = document.getElementById("txtKanriNo");
 	m_sKonreiNo = txtKanriNo.value;
 
@@ -402,7 +443,7 @@ function fncDeleteKonreiCallback(xmlhttp)
 		fncInitKonreiListBox();	
 	}
 	var txtKonreiId = document.getElementById("txtKonreiId");
-	txtKonreiId.value = "";
+	txtKonreiId.textContent = "";
 }
 function fncOnClickReturn()
 {

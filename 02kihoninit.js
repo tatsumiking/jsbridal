@@ -219,7 +219,7 @@ function fncGetKonreiData()
 {
 	var dbnm = m_szHotelDB;
 	var tble = m_szKonreiTable;
-	var fild = "id,username";
+	var fild = "id,username,password";
 	fild = fild + ",kyosiki,hirouen,kaijyou,mukotori";
 	fild = fild + ",sinrozoku,sinroname1,sinroname2";
 	fild = fild + ",sinpuzoku,sinpuname1,sinpuname2";
@@ -235,9 +235,13 @@ function fncGetKonreiDataCallback(xmlhttp)
 	var ary = data.split(",");
 	if(ary[0] == "0"){
 		txtKonreiId = document.getElementById("txtKonreiId");
-		txtKonreiId.value = m_nKonreiId;
+		txtKonreiId.textContent = m_nKonreiId;
 		txtKanriNo = document.getElementById("txtKanriNo");
 		txtKanriNo.value = m_sKonreiNo;
+		txtKanriNo = document.getElementById("txtKanriNo");
+		txtKanriNo.value = m_sKonreiNo;
+		txtKanriPW = document.getElementById("txtKanriPW");
+		txtKanriPW.value = m_sKonreiPW;
 		fncSetDefKonreiData();
 		fncSaveCsvData();
 		return;
@@ -245,24 +249,30 @@ function fncGetKonreiDataCallback(xmlhttp)
 	if(ary[7] == "" && ary[11] == "" ){
 		m_nKonreiId = ary[0];
 		m_sKonreiNo = ary[1];
+		m_sKonreiPW = ary[2];
 		txtKonreiId = document.getElementById("txtKonreiId");
-		txtKonreiId.value = m_nKonreiId;
+		txtKonreiId.textContent = m_nKonreiId;
 		txtKanriNo = document.getElementById("txtKanriNo");
 		txtKanriNo.value = m_sKonreiNo;
+		txtKanriPW = document.getElementById("txtKanriPW");
+		txtKanriPW.value = m_sKonreiPW;
 		fncSetDefKonreiData();
 		fncSaveCsvData();
 		return;
 	}
 	txtKonreiId = document.getElementById("txtKonreiId");
-	txtKonreiId.value = ary[0];
+	txtKonreiId.textContent = ary[0];
 	m_nKonreiId = fnclibStringToInt(ary[0]);
 	txtKanriNo = document.getElementById("txtKanriNo");
 	txtKanriNo.value = ary[1];
 	m_sKonreiNo = ary[1];
+	txtKanriPW = document.getElementById("txtKanriPW");
+	txtKanriPW.value = ary[2];
+	m_sKonreiPW = ary[2];
 	
 	cmbKyosikiNengo = document.getElementById("cmbKyosikiNengo");
 	txtKyosikiGG = document.getElementById("txtKyosikiGG");
-	var sYY = ary[2].substr(0,4);
+	var sYY = ary[3].substr(0,4);
 	if(m_nDispNengo = 0)
 	{
 		cmbKyosikiNengo.selectedIndex = 0;
@@ -273,17 +283,17 @@ function fncGetKonreiDataCallback(xmlhttp)
 		txtKyosikiGG.value = aryNengou[0];
 	}
 	txtKyosikiMM = document.getElementById("txtKyosikiMM");
-	txtKyosikiMM.value = ary[2].substr(5,2);
+	txtKyosikiMM.value = ary[3].substr(5,2);
 	txtKyosikiDD = document.getElementById("txtKyosikiDD");
-	txtKyosikiDD.value = ary[2].substr(8,2);
+	txtKyosikiDD.value = ary[3].substr(8,2);
 	txtKyosikiHH = document.getElementById("txtKyosikiHH");
-	txtKyosikiHH.value = ary[2].substr(11,2);
+	txtKyosikiHH.value = ary[3].substr(11,2);
 	txtKyosikiMN = document.getElementById("txtKyosikiMN");
-	txtKyosikiMN.value = ary[2].substr(14,2);
+	txtKyosikiMN.value = ary[3].substr(14,2);
 	
 	cmbHirouenNengo = document.getElementById("cmbHirouenNengo");
 	txtHirouenGG = document.getElementById("txtHirouenGG");
-	var sYY = ary[3].substr(0,4);
+	var sYY = ary[4].substr(0,4);
 	if(m_nDispNengo = 0)
 	{
 		cmbHirouenNengo.selectedIndex = 0;
@@ -294,46 +304,46 @@ function fncGetKonreiDataCallback(xmlhttp)
 		txtHirouenGG.value = aryNengou[0];
 	}
 	txtHirouenMM = document.getElementById("txtHirouenMM");
-	txtHirouenMM.value = ary[3].substr(5,2);
+	txtHirouenMM.value = ary[4].substr(5,2);
 	txtHirouenDD = document.getElementById("txtHirouenDD");
-	txtHirouenDD.value = ary[3].substr(8,2);
+	txtHirouenDD.value = ary[4].substr(8,2);
 	txtHirouenHH = document.getElementById("txtHirouenHH");
-	txtHirouenHH.value = ary[3].substr(11,2);
+	txtHirouenHH.value = ary[4].substr(11,2);
 	txtHirouenMN = document.getElementById("txtHirouenMN");
-	txtHirouenMN.value = ary[3].substr(14,2);
+	txtHirouenMN.value = ary[4].substr(14,2);
 
 	cmbKaijyou = document.getElementById("cmbKaijyou");
-	fnclibSelectData(cmbKaijyou, ary[4]);
+	fnclibSelectData(cmbKaijyou, ary[5]);
 
 	chkMukotori = document.getElementById("chkMukotori");
-	if(ary[5] == "0"){
+	if(ary[6] == "0"){
 		chkMukotori.checked = false;
 	}else{
 		chkMukotori.checked = true;
 	}
 
 	cmbSinroZokugara = document.getElementById("cmbSinroZokugara");
-	fnclibSelectData(cmbSinroZokugara, ary[6]);
+	fnclibSelectData(cmbSinroZokugara, ary[7]);
 	txtSinroMyouji = document.getElementById("txtSinroMyouji");
-	txtSinroMyouji.value = ary[7];
+	txtSinroMyouji.value = ary[8];
 	txtSinroNamae = document.getElementById("txtSinroNamae");
-	txtSinroNamae.value = ary[8];
+	txtSinroNamae.value = ary[9];
 	
 	cmbSinpuZokugara = document.getElementById("cmbSinpuZokugara");
-	fnclibSelectData(cmbSinpuZokugara, ary[9]);
+	fnclibSelectData(cmbSinpuZokugara, ary[10]);
 	txtSinpuMyouji = document.getElementById("txtSinpuMyouji");
-	txtSinpuMyouji.value = ary[10];
+	txtSinpuMyouji.value = ary[11];
 	txtSinpuNamae = document.getElementById("txtSinpuNamae");
-	txtSinpuNamae.value = ary[11];
+	txtSinpuNamae.value = ary[12];
 	
 	txtSinroRyouri = document.getElementById("txtSinroRyouri");
-	txtSinroRyouri.value = ary[12];
+	txtSinroRyouri.value = ary[13];
 	txtSinpuRyouri = document.getElementById("txtSinpuRyouri");
-	txtSinpuRyouri.value = ary[13];
+	txtSinpuRyouri.value = ary[14];
 	txtSinroBikou = document.getElementById("txtSinroBikou");
-	txtSinroBikou.value = ary[14];
+	txtSinroBikou.value = ary[15];
 	txtSinpuBikou = document.getElementById("txtSinpuBikou");
-	txtSinpuBikou.value = ary[15];
+	txtSinpuBikou.value = ary[16];
 
 	fncSaveCsvData();
 }
