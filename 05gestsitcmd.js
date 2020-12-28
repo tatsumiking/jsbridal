@@ -119,9 +119,9 @@ function fncOnClickSitText(blkno,lrkind,sitno)
     if(m_nSlctGestId != 0){
         tno = fncGetTNo(clsTbl);
         if(lrkind == 1){
-            sno = idx + 1;
+            sno = sitidx + 1;
         }else{
-            sno = 14 - idx; // idx=0->14 7->7
+            sno = 14 - sitidx; // idx=0->14 7->7
         }
         fncUpdateGestSit(m_nSlctGestId, tno, sno);
     }
