@@ -21,7 +21,7 @@
 .cSize5ex{ width:5.5em; }
 .cKonrei{
 	font-size:1.8vw;
-	width:20.0em;
+	width:21.0em;
 }
 .cVSpaceEx{ height:0.2em; }
 </style>
@@ -36,8 +36,7 @@
 <body onload="fncInit()">
 <div class="cScrnArea cFlexVertical">
 	<div class="cFlexHorizontal">
-		<div class="cSizeLt0"></div>
-		<div class="cFlexVertical cSize29">
+		<div class="cFlexVertical cSize32">
 			<div class="cVSpace"></div>
 			<div>
 				<label class="cBold">　婚礼基本情報　婚礼ＩＤ　　</label>
@@ -138,13 +137,13 @@
 			</div>
 			<div class="cVSpace"></div>
 		</div>
-		<div class="cSizeLt0"></div>
-		<div class="cFlexVertical cSize19" id="divKonreiListArea">
+
+		<div class="cFlexVertical cSize22" id="divKonreiListArea">
 			<div class="cVSpace10 cKonrei">
-				<input type="radio" id="rdoNoAsc" name="sort" class="cSize1ex" checked>NO昇順</input>
-				<input type="radio" id="rdoNoDesc" name="sort" class="cSize1ex">NO降順</input>
-				<input type="radio" id="rdoDateAsc" name="sort" class="cSize1ex">日付昇順</input>
-				<input type="radio" id="rdoDateDesc" name="sort" class="cSize1ex">日付降順</input>
+				<input type="radio" id="rdoNoAsc" name="sort" class="" checked>NO昇順</input>
+				<input type="radio" id="rdoNoDesc" name="sort" class="">NO降順</input>
+				<input type="radio" id="rdoDateAsc" name="sort" class="">日付昇順</input>
+				<input type="radio" id="rdoDateDesc" name="sort" class="">日付降順</input>
 			</div>
 			<div class="TopSpace cKonrei">
 				<select size="20" id="lstKonrei" class="cKonrei">
@@ -154,20 +153,19 @@
 	</div>
 	<div class="cFlexHorizontal">
 		<div class="cSizeLt0"></div>
-		<div class="cFlexVertical cSize29">
+		<div class="cFlexVertical cSize30">
 			<div class="cFlexHorizontal">
 				<div>
 					<button class="cSize6" id="btnKonreiCopy">婚礼移行</button>
 				</div>
-				<div class="cSize13"></div>
-				<div class="cSize7">
+				<div class="cSize10"></div>
+				<div class="cSize6">
 					<div class="cVSpaceEx"></div>
 					<label class="cSize6 cClrDDD cFileBtn">CSV読込
 						<input type = "file" id="btnPCCsvLoad" style="display:none"></input>
 					</label>
 				</div>
-				<div class="cSize1"></div>
-				<div class="cSize7">
+				<div class="cSize6">
 					<div class="cVSpaceEx"></div>
 					<a href="" class="cSize6 cClrDDD cABtn" id="aCsvSave">CSV保存</a>
 				</div>
@@ -185,7 +183,7 @@
 				<div>
 					<button class="cSize4" id="btnDelete">削除</button>
 				</div>
-				<div class="cSize2ex"></div>
+				<div class="cSize2"></div>
 				<div>
 					<button class="cSize5" id="btnFixed">確定</button>
 				</div>
